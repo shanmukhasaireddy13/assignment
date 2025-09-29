@@ -1,0 +1,35 @@
+{
+  "projectMetadata": {
+    "dependencies": [
+      "bcryptjs",
+      "cookie-parser",
+      "cors",
+      "dotenv",
+      "expess",
+      "express",
+      "jsonwebtoken",
+      "mongoose",
+      "nodemailer",
+      "nodemon"
+    ],
+    "middleware": [
+      "/api/auth",
+      "/api/user"
+    ],
+    "routes": [
+      "/"
+    ],
+    "controllers": [
+      "C:\\Users\\lions\\Desktop\\all desktop folders\\projects\\login-app\\server\\controllers\\authController.js",
+      "C:\\Users\\lions\\Desktop\\all desktop folders\\projects\\login-app\\server\\controllers\\userController.js"
+    ],
+    "entryPoint": "server.js",
+    "projectType": "nodejs",
+    "framework": "Express",
+    "version": "1.0.0"
+  },
+  "timestamp": "2025-09-20T13:40:18.745Z",
+  "scanOptions": {
+    "projectPath": "C:\\Users\\lions\\Desktop\\all desktop folders\\projects\\login-app\\server"
+  }
+}
