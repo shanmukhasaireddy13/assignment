@@ -37,10 +37,8 @@ const Home = () => {
 
   useEffect(() => {
     if (!authChecked) return
-    if (!isLoggedin) {
-      navigate('/login')
-      return
-    }
+    if (!isLoggedin) return
+    // user is authenticated - load notes
     load()
   }, [authChecked, isLoggedin])
   return (
