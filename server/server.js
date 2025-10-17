@@ -6,8 +6,8 @@ import { connect } from "mongoose";
 import connectDB from './config/mongodb.js';
 import authRouter from './routes/authRoutes.js';
 import userRouter from "./routes/userRoutes.js";
-import taskRouter from './routes/taskRoutes.js';
-import adminRouter from './routes/adminRoutes.js';
+// Tasks removed; using notes instead
+import noteRouter from './routes/noteRoutes.js';
 import swaggerUi from 'swagger-ui-express';
 import apiSpec from './docs/openapi.js';
 
@@ -38,7 +38,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spec));
 app.get('/', (req, res) => res.send("API WORKING"));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/tasks', taskRouter);
-app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/notes', noteRouter);
+// Admin routes removed
 
 app.listen(port, () => console.log(`Server started on PORT:${port}`));

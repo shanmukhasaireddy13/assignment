@@ -7,8 +7,7 @@ const apiSpec = {
   tags: [
     { name: 'Auth', description: 'Authentication APIs' },
     { name: 'User', description: 'User self APIs' },
-    { name: 'Tasks', description: 'Task CRUD APIs' },
-    { name: 'Admin', description: 'Admin-only management APIs' }
+    { name: 'Notes', description: 'Notes CRUD APIs' }
   ],
   paths: {
     '/api/v1/auth/register': {
@@ -42,51 +41,34 @@ const apiSpec = {
       get: { tags: ['User'], summary: 'Get current user data', responses: { 200: { description: 'OK' } } }
     },
 
-    '/api/v1/tasks': {
-      get: { tags: ['Tasks'], summary: 'List tasks', responses: { 200: { description: 'OK' } } },
+    // Google SSO
+    '/api/v1/auth/google': {
       post: {
-        tags: ['Tasks'], summary: 'Create task', requestBody: {
+        tags: ['Auth'], summary: 'Google SSO login', requestBody: {
           required: true, content: { 'application/json': { schema: {
-            type: 'object', required: ['title'], properties: { title:{type:'string'}, description:{type:'string'} }
+            type: 'object', required: ['idToken'], properties: { idToken:{type:'string'} }
+          } } }
+        }, responses: { 200: { description: 'Logged in' } }
+      }
+    },
+
+    '/api/v1/notes': {
+      get: { tags: ['Notes'], summary: 'List notes', responses: { 200: { description: 'OK' } } },
+      post: {
+        tags: ['Notes'], summary: 'Create note', requestBody: {
+          required: true, content: { 'application/json': { schema: {
+            type: 'object', required: ['content'], properties: { content:{type:'string'} }
           } } }
         }, responses: { 201: { description: 'Created' } }
       }
     },
-    '/api/v1/tasks/{id}': {
+    '/api/v1/notes/{id}': {
       parameters: [{ in:'path', name:'id', required:true, schema:{type:'string'} }],
-      get: { tags: ['Tasks'], summary: 'Get task', responses: { 200: { description: 'OK' } } },
-      put: { tags: ['Tasks'], summary: 'Update task', responses: { 200: { description: 'Updated' } } },
-      delete: { tags: ['Tasks'], summary: 'Delete task', responses: { 200: { description: 'Deleted' } } }
+      get: { tags: ['Notes'], summary: 'Get note', responses: { 200: { description: 'OK' } } },
+      put: { tags: ['Notes'], summary: 'Update note', responses: { 200: { description: 'Updated' } } },
+      delete: { tags: ['Notes'], summary: 'Delete note', responses: { 200: { description: 'Deleted' } } }
     },
-
-    '/api/v1/admin/users': {
-      get: { tags: ['Admin'], summary: 'List users with counts', responses: { 200: { description: 'OK' } } }
-    },
-    '/api/v1/admin/audits': {
-      get: { tags: ['Admin'], summary: 'List recent audit logs', responses: { 200: { description: 'OK' } } }
-    },
-    '/api/v1/admin/users/{id}': {
-      parameters: [{ in:'path', name:'id', required:true, schema:{type:'string'} }],
-      get: { tags: ['Admin'], summary: 'Get user detail', responses: { 200: { description: 'OK' } } },
-      put: { tags: ['Admin'], summary: 'Update user profile', responses: { 200: { description: 'Updated' } } },
-      delete: { tags: ['Admin'], summary: 'Delete user', responses: { 200: { description: 'Deleted' } } }
-    },
-    '/api/v1/admin/users/{id}/password': {
-      parameters: [{ in:'path', name:'id', required:true, schema:{type:'string'} }],
-      put: { tags: ['Admin'], summary: 'Change user password', responses: { 200: { description: 'OK' } } }
-    },
-    '/api/v1/admin/users/{id}/tasks': {
-      parameters: [{ in:'path', name:'id', required:true, schema:{type:'string'} }],
-      post: { tags: ['Admin'], summary: 'Create task for user', responses: { 201: { description: 'Created' } } }
-    },
-    '/api/v1/admin/tasks/{taskId}': {
-      parameters: [{ in:'path', name:'taskId', required:true, schema:{type:'string'} }],
-      put: { tags: ['Admin'], summary: 'Update task (admin)', responses: { 200: { description: 'Updated' } } },
-      delete: { tags: ['Admin'], summary: 'Delete task (admin)', responses: { 200: { description: 'Deleted' } } }
-    },
-    '/api/v1/admin/create-admin': {
-      post: { tags: ['Admin'], summary: 'Create a new admin', responses: { 201: { description: 'Created' } } }
-    }
+    
   }
 };
 

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { AppContent } from '../context/AppContexts'
 import axios from 'axios'
@@ -54,6 +53,36 @@ const Login = () => {
         navigate('/')
       }
     },[authChecked, isLoggedin])
+  const onGoogle = async (credential) => {
+    try {
+      axios.defaults.withCredentials = true
+      const { data } = await axios.post(backendUrl + '/api/v1/auth/google', { idToken: credential })
+      if (data.success) {
+        setIsLoggedin(true)
+        getUserData()
+        navigate('/')
+      } else {
+        toast.error(data.message)
+      }
+    } catch (e) { toast.error(e.message) }
+  }
+
+  useEffect(() => {
+    // Load Google Identity script
+    const s = document.createElement('script')
+    s.src = 'https://accounts.google.com/gsi/client'
+    s.async = true
+    s.defer = true
+    s.onload = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({ client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, callback: (resp)=> onGoogle(resp.credential) })
+        window.google.accounts.id.renderButton(document.getElementById('googleBtn'), { theme: 'outline', size: 'large', width: 320 })
+      }
+    }
+    document.body.appendChild(s)
+    return () => { document.body.removeChild(s) }
+  }, [])
+
   return (
     <div className='flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gray-50'>
       <div className='w-full max-w-md bg-white border rounded-lg p-8 shadow-sm'>
@@ -79,6 +108,8 @@ const Login = () => {
           </div>
           <button className='w-full py-2.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-medium'>{state}</button>
         </form>
+        <div className='my-4 text-center text-gray-500 text-sm'>or</div>
+        <div id='googleBtn' className='flex justify-center'></div>
         {state ==='Sign Up' ? (
           <p className='text-gray-600 text-center text-sm mt-4'>Already have an account?{' '}
             <span onClick={()=>setState('Login')} className='text-blue-600 cursor-pointer underline'>Login here</span>

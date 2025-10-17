@@ -1,14 +1,13 @@
 # React Frontend Client
 
-Modern React application with Vite for interacting with the MERN Auth API.
+Modern React application with Vite for interacting with the MERN Notes API using Google SSO.
 
 ## Features
-- User authentication (login/register)
-- Protected dashboard for task management
-- Admin console for user and task management
+- Google Sign-In (Google Identity Services)
+- Protected notes dashboard (create, list, delete)
 - Responsive design with Tailwind CSS
 - Toast notifications for user feedback
-- Role-based UI rendering
+-- Role-based UI rendering (optional)
 
 ## Tech Stack
 - React 19 + Vite
@@ -21,6 +20,7 @@ Modern React application with Vite for interacting with the MERN Auth API.
 Create `.env` file:
 ```
 VITE_BACKEND_URL=http://localhost:4000
+VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
 ```
 
 ## Installation & Setup
@@ -49,21 +49,13 @@ client/
 ## Pages & Features
 
 ### Authentication
-- **Login Page** (`/login`) - User login and registration
-- **Dynamic Root** (`/`) - Shows admin console for admins, user dashboard for users
+- **Login Page** (`/login`) - Email/password (optional) + Google Sign-In button
+- **Root** (`/`) - Notes dashboard for authenticated users
 
-### User Dashboard
-- Task management (create, list, delete)
+### Notes Dashboard
+- Notes management (create, list, delete)
 - User profile display
 - Logout functionality
-
-### Admin Console
-- User management (view, edit, delete users)
-- Password reset for users
-- Task management for any user
-- Audit log viewing
-- Create new admin users
-- Search and filter users
 
 ## Key Components
 
@@ -73,9 +65,8 @@ client/
 - Provides user data and auth status
 
 ### Pages
-- **Home.jsx** - User dashboard with task management
-- **Login.jsx** - Authentication form
-- **Admin.jsx** - Comprehensive admin management interface
+- **Home.jsx** - Notes dashboard
+- **Login.jsx** - Authentication form with Google button
 
 ### Components
 - **Navbar.jsx** - Navigation with user avatar and logout
@@ -92,8 +83,14 @@ client/
 ## Security
 - JWT tokens handled via HTTP-only cookies
 - Automatic redirects based on authentication status
-- Admin routes completely hidden from regular users
 - Secure API communication with backend
+ 
+## Google Cloud Console
+- OAuth 2.0 Client Type: Web application
+- Authorized JavaScript origins:
+  - `http://localhost:5173`
+  - `https://your-production-domain.com`
+- Authorized redirect URIs: not required for this token-based approach
 
 ## Development
 - Hot reload with Vite

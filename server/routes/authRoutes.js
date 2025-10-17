@@ -1,5 +1,5 @@
 import express from 'express'
-import { isAuthenticated, login, logout, register } from '../controllers/authController.js';
+import { isAuthenticated, login, logout, register, googleLogin } from '../controllers/authController.js';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
 import userAuth from '../middleware/userAuth.js';
@@ -83,6 +83,10 @@ authRouter.post('/logout', logout);
  *         description: Authenticated/Not
  */
 authRouter.get('/is-auth',userAuth,isAuthenticated);
+
+// Google SSO
+const googleSchema = { body: z.object({ idToken: z.string().min(10) }) };
+authRouter.post('/google', validate(googleSchema), googleLogin);
 
 export default authRouter;
 
